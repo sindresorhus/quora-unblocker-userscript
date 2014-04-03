@@ -11,5 +11,4 @@ Using Chrome? Check out the [native extension](https://github.com/sindresorhus/q
 
 ## License
 
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
-(c) [Sindre Sorhus](http://sindresorhus.com)
+[MIT](http://opensource.org/licenses/MIT) © [Sindre Sorhus](http://sindresorhus.com)
