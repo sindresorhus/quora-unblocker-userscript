@@ -1,63 +1,90 @@
 // ==UserScript==
-// @name            Quora unblocker
+// @name            Quora Unblocker
 // @description     Removes the Quora login requirement and any nagging about it
 // @namespace       http://sindresorhus.com
 // @version         0.1.0
 // @author          Sindre Sorhus
 // @license         MIT
 // @released        2013-02-17
-// @updated         2013-02-17
+// @updated         2014-08-02
+// @icon            https://github.com/sindresorhus/quora-unblocker-userscript/raw/master/icon.png
 // @match           *://quora.com/*
 // @match           *://www.quora.com/*
 // @run-at          document-start
 // ==/UserScript==
-(function (exports) {
+(function () {
 	'use strict';
+	var queryString = {};
 
-	exports.parse = function (str) {
-		var query = str.split('?')[1];
-
-		if (!query) {
+	queryString.parse = function (str) {
+		if (typeof str !== 'string') {
 			return {};
 		}
 
-		return query.trim().split('&').reduce(function (ret, param) {
-			var parts = param.split('=');
-			// Missing `=` is null:
+		str = str.trim().replace(/^(\?|#)/, '');
+
+		if (!str) {
+			return {};
+		}
+
+		return str.trim().split('&').reduce(function (ret, param) {
+			var parts = param.replace(/\+/g, ' ').split('=');
+			var key = parts[0];
+			var val = parts[1];
+
+			key = decodeURIComponent(key);
+			// missing `=` should be `null`:
 			// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
-			ret[parts[0]] = parts[1] === undefined ? null : decodeURIComponent(parts[1]);
+			val = val === undefined ? null : decodeURIComponent(val);
+
+			if (!ret.hasOwnProperty(key)) {
+				ret[key] = val;
+			} else if (Array.isArray(ret[key])) {
+				ret[key].push(val);
+			} else {
+				ret[key] = [ret[key], val];
+			}
+
 			return ret;
 		}, {});
 	};
 
-	exports.stringify = function (obj) {
-		return Object.keys(obj).map(function (key) {
-			return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
-		}).join('&');
+	queryString.stringify = function (obj) {
+		return obj ? Object.keys(obj).map(function (key) {
+			var val = obj[key];
+
+			if (Array.isArray(val)) {
+				return val.map(function (val2) {
+					return encodeURIComponent(key) + '=' + encodeURIComponent(val2);
+				}).join('&');
+			}
+
+			return encodeURIComponent(key) + '=' + encodeURIComponent(val);
+		}).join('&') : '';
 	};
-})(window.qs = {});
+
+	if (typeof define === 'function' && define.amd) {
+		define(function() { return queryString; });
+	} else if (typeof module !== 'undefined' && module.exports) {
+		module.exports = queryString;
+	} else {
+		window.queryString = queryString;
+	}
+})();
 
 (function () {
-	/*jshint newcap:false camelcase:false */
-	/*global qs, GM_addStyle */
 	'use strict';
 
-	var query = qs.parse(location.search);
+	var query = queryString.parse(location.search);
 
 	if (!query.share) {
 		query.share = 1;
-		location.search = qs.stringify(query);
+		location.search = queryString.stringify(query);
 		return;
 	}
 
 	document.addEventListener('DOMContentLoaded', function () {
 		// silently fails in Firefox if placed outside when `document-start`
-		GM_addStyle('.signup_bubble, .signup_column { display: none !important }');
-
-		var el = document.querySelector('.signup_bar_fixed');
-
-		if (el) {
-			el.parentNode.removeChild(el);
-		}
+		GM_addStyle('.LoggedOutSiteHeader, .SignupColumn, .signup_bubble, .signup_column, .logged_out .follow_button, .logged_out .ActionBar, .logged_out .AskToAnswerSectionToggle, .logged_out .answer_voters, .logged_out .Footer { display: none !important }');
 	});
 })();
