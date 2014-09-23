@@ -85,6 +85,6 @@
 
 	document.addEventListener('DOMContentLoaded', function () {
 		// silently fails in Firefox if placed outside when `document-start`
-		GM_addStyle('.LoggedOutSiteHeader, .SignupColumn, .signup_bubble, .signup_column, .logged_out .follow_button, .logged_out .ActionBar, .logged_out .AskToAnswerSectionToggle, .logged_out .answer_voters, .logged_out .Footer { display: none !important }');
+		GM_addStyle('.LoggedOutSiteHeader, .narrow_signup_form, .signup_bubble, .signup_column, .logged_out .follow_button, .logged_out .ActionBar, .logged_out .AskToAnswerSectionToggle, .logged_out .answer_voters, .logged_out .Footer, .inline_answer_logged_out { display: none !important }');
 	});
 })();
