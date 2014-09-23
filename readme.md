@@ -20,4 +20,4 @@ Using Chrome? Check out the [Chrome extension](https://github.com/sindresorhus/q
 MIT © [Sindre Sorhus](http://sindresorhus.com)
 
 
-[install]: http://userscripts.org/scripts/show/159399
+[install]: https://greasyfork.org/scripts/5224-quora-unblocker
