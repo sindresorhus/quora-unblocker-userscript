@@ -2,7 +2,7 @@
 // @name            Quora Unblocker
 // @description     Removes the Quora login requirement and any nagging about it
 // @namespace       http://sindresorhus.com
-// @version         1.0.0
+// @version         1.0.1
 // @author          Sindre Sorhus
 // @license         MIT
 // @released        2013-02-17
