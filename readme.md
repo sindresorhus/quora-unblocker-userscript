@@ -17,7 +17,7 @@ Using Chrome? Check out the [Chrome extension](https://github.com/sindresorhus/q
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)
 
 
 [install]: https://greasyfork.org/scripts/5224-quora-unblocker
