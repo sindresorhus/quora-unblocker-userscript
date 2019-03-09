@@ -8,6 +8,7 @@
 // @released        2013-02-17
 // @updated         2014-08-02
 // @icon            https://github.com/sindresorhus/quora-unblocker-userscript/raw/master/icon.png
+// @grant           GM_addStyle
 // @match           *://quora.com/*
 // @match           *://www.quora.com/*
 // @run-at          document-start
